@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Ixudra\Curl\Facades\Curl;
 
 class HomeController extends Controller
 {
@@ -21,13 +23,14 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $callBack = $request->session()->get("callBack");
+        $callBack = $callBack."?userLogged=".json_encode(Auth::user());
+        return redirect($callBack);
     }
 
-    public function redirection()
-    {
-        return redirect()->to("http://google.com");
+    public function index2(){
+        return view('home');
     }
 }
