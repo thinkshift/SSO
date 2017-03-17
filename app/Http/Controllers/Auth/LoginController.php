@@ -46,14 +46,19 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $callBack = $request->get("callBack");
-        $callBack = $callBack."?loggedOut=1";
-
         $this->guard()->logout();
 
         $request->session()->flush();
 
         $request->session()->regenerate();
+
+        $callBack = $request->get("callBack");
+
+        if(isset($callBack)){
+            $callBack = $callBack."?loggedOut=1";
+        }else{
+            return redirect('/');
+        }
 
         return redirect($callBack);
     }

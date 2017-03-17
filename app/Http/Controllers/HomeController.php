@@ -26,7 +26,12 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $callBack = $request->session()->get("callBack");
-        $callBack = $callBack."?userLogged=".json_encode(Auth::user());
+        if(isset($callBack)){
+            $callBack = $callBack."?userLogged=".json_encode(Auth::user());
+        }else{
+            return view('home');
+        }
+
         return redirect($callBack);
     }
 
